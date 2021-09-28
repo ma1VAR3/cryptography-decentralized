@@ -20,6 +20,8 @@ contract CryptService {
     cipherAssociation[] CA;
 
     function storeCipher(string cipher, address[] parties) public returns(uint) {
-        
+        cipherAssociation c = cipherAssociation(counter, cipher, msg.sender, parties);
+        CA.push(c);
+        counter++;
     }
 }
