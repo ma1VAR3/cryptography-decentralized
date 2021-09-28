@@ -6,12 +6,20 @@ contract CryptService {
     
     int counter;
 
+    constructor() public {
+        counter = 0;
+    }
+
     struct cipherAssociation {
-        string identifier;
+        uint identifier;
         string cipher;
         address issuer;
         address[] accessPool;
     }
 
     cipherAssociation[] CA;
+
+    function storeCipher(string cipher, address[] parties) public returns(uint) {
+        
+    }
 }
