@@ -25,8 +25,14 @@ contract CryptService {
         counter++;
     }
     
-    function retrieveCipher(uint identifier) public returns(string) {
-        cipherAssociation c = CA[identifier];
+    function retrieveCipher(uint identifier) public view returns(string memory) {
+        cipherAssociation memory c = CA[identifier];
         
+        for(uint i=0; i<c.accessPool.length; i++) {
+            if(c.accessPool[i] == msg.sender) {
+                return c.cipher;
+            }
+        }
+        return "0";
     }
 }
