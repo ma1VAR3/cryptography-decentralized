@@ -25,7 +25,8 @@ contract CryptService {
         counter++;
     }
     
-    function retrieveCipher() public returns(string) {
+    function retrieveCipher(uint identifier) public returns(string) {
+        cipherAssociation c = CA[identifier];
         
     }
 }
