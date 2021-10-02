@@ -4,7 +4,7 @@ pragma solidity >=0.5.0 <0.7.0;
 
 contract CryptService {
     
-    int counter;
+    uint counter;
 
     constructor() public {
         counter = 0;
@@ -17,11 +17,15 @@ contract CryptService {
         address[] accessPool;
     }
 
-    cipherAssociation[] CA;
+    cipherAssociation[] public CA;
 
-    function storeCipher(string cipher, address[] parties) public returns(uint) {
-        cipherAssociation c = cipherAssociation(counter, cipher, msg.sender, parties);
+    function storeCipher(string memory cipher, address[] memory parties) public returns(uint) {
+        cipherAssociation memory c = cipherAssociation(counter,cipher, msg.sender,parties);
         CA.push(c);
         counter++;
+    }
+    
+    function retrieveCipher() public returns(string) {
+        
     }
 }
