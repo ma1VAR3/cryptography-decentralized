@@ -63,11 +63,10 @@ contract CryptService {
     function createNewKeyPool(uint pubK, address[] memory parties) public returns(uint){
         uint identifier = PKI[msg.sender];
         PKI[msg.sender] = identifier + 1;
-        publicKeyPool p = publicKeyPool(identifier, pubK, parties);
-        publicKeyPool[] keyPool = PKP[msg.sender];
+        publicKeyPool memory p = publicKeyPool(identifier, pubK, parties);
+        publicKeyPool[] storage keyPool = PKP[msg.sender];
         keyPool.push(p);
         PKP[msg.sender] = keyPool;
         return identifier;
-        
     }
 }
