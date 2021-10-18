@@ -60,7 +60,7 @@ contract CryptService {
         return flag;
     }
     
-    function createNewKeyPool(uint pubK, address[] memory parties) public returns(uint){
+    function createNewKeyPool(uint pubK, address[] memory parties) public returns(uint) {
         uint identifier = PKI[msg.sender];
         PKI[msg.sender] = identifier + 1;
         publicKeyPool memory p = publicKeyPool(identifier, pubK, parties);
@@ -71,4 +71,16 @@ contract CryptService {
         return identifier;
     }
     
+    function getPubKfromKeyPool(address party, uint identifier) public view returns(uint) {
+        if(PKI[party] >= identifier) {
+            return 0;
+        }
+        for(uint i=0; i<PKP[party][identifier].accessPool.length; i++) {
+            if(PKP[party][identifier].accessPool[i] == msg.sender) {
+                return PKP[party][identifier].publicKey;
+            }
+        }
+        return 0;
+        
+    }
 }
