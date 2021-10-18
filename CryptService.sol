@@ -16,9 +16,18 @@ contract CryptService {
         address issuer;
         address[] accessPool;
     }
-
+    
+    struct publicKeyPool {
+        uint identifier;
+        uint publicKey;
+        address[] accessPool;
+    }
+    
     cipherAssociation[] private CA;
-
+    
+    mapping (address => publicKeyPool[]) private PKP;
+    mapping (address => uint) private PKI;
+    
     function storeCipher(string memory cipher, address[] memory parties) public returns(uint) {
         cipherAssociation memory c = cipherAssociation(counter,cipher, msg.sender,parties);
         CA.push(c);
@@ -49,5 +58,16 @@ contract CryptService {
             }
         }
         return flag;
+    }
+    
+    function createNewKeyPool(uint pubK, address[] memory parties) public returns(uint){
+        uint identifier = PKI[msg.sender];
+        PKI[msg.sender] = identifier + 1;
+        publicKeyPool p = publicKeyPool(identifier, pubK, parties);
+        publicKeyPool[] keyPool = PKP[msg.sender];
+        keyPool.push(p);
+        PKP[msg.sender] = keyPool;
+        return identifier;
+        
     }
 }
