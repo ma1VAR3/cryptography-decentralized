@@ -66,7 +66,9 @@ contract CryptService {
         publicKeyPool memory p = publicKeyPool(identifier, pubK, parties);
         publicKeyPool[] storage keyPool = PKP[msg.sender];
         keyPool.push(p);
+        keyPool[identifier].accessPool.push(msg.sender);
         PKP[msg.sender] = keyPool;
         return identifier;
     }
+    
 }
