@@ -87,4 +87,8 @@ contract CryptService {
     // function to add acessor to KeyPool
 
     // functions for enctypted key storage
+        // create
+        // accesss
+        // modify
+        // change accessor
 }
