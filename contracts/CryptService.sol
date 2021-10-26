@@ -23,6 +23,10 @@ contract CryptService {
         address[] accessPool;
     }
     
+    struct diffieHillmanPool {
+        
+    }
+
     cipherAssociation[] private CA;
     
     mapping (address => publicKeyPool[]) private PKP;
