@@ -27,6 +27,7 @@ contract CryptService {
         uint identifier;
         uint generator;
         uint prime;
+        address [] accessPool;
     }
 
     cipherAssociation[] private CA;
