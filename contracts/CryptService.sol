@@ -98,4 +98,6 @@ contract CryptService {
         // accesss
         // modify
         // change accessor
+
+    // functions for Diffie Hillman Key Exchange
 }
