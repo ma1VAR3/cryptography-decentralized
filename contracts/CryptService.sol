@@ -24,7 +24,8 @@ contract CryptService {
     }
     
     struct diffieHillmanPool {
-        
+        uint identifier;
+        uint generator;
     }
 
     cipherAssociation[] private CA;
