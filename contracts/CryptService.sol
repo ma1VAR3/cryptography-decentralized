@@ -100,6 +100,6 @@ contract CryptService {
         // change accessor
 
     // functions for Diffie Hillman Key Exchange
-        // struct for public keys
+        // struct for public keys (p, g, e)
         // how to store private keys?
 }
