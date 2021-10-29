@@ -101,5 +101,5 @@ contract CryptService {
 
     // functions for Diffie Hillman Key Exchange
         // struct for public keys
-        
+        // how to store private keys?
 }
