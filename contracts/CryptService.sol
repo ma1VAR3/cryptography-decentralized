@@ -100,4 +100,6 @@ contract CryptService {
         // change accessor
 
     // functions for Diffie Hillman Key Exchange
+        // struct for public keys
+        
 }
