@@ -123,8 +123,14 @@ contract CryptService {
         return flag;
     }
     
-    function getDHExchange() public returns(uint) {
-        
+    function getDHExchange(uint identifier, address exchangeAddr) public returns(uint) {
+        diffieHellmanPool d = DHP[identifier];
+        for(int i=0; i < d.accessPool.length; i++) {
+            if (d.accessPool[i] == msg.sender) {
+                return d.exhanges[exchangeAddr];
+            }
+        }
+        return 0;
     }
     
     
