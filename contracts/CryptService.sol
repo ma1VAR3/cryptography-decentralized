@@ -4,16 +4,33 @@ pragma solidity >=0.5.0 <0.7.0;
 
 contract CryptService {
     
-    uint counter;
-
+    
+    // identifier variables
+    
+    uint CAcounter;
+    uint DHPcounter;
+    
     constructor() public {
-        counter = 0;
+        CAcounter = 0;
+        DHPcounter = 0;
     }
-
+    
+    
+    // Definition of structures
+    
     struct cipherAssociation {
         uint identifier;
-        string cipher;
         address issuer;
+        string cipher;
+        address[] accessPool;
+    }
+    
+    struct diffieHellmanPool {
+        uint identifier;
+        address issuer;
+        uint prime;
+        uint generator;
+        mapping (address => uint) exhanges;
         address[] accessPool;
     }
     
@@ -23,24 +40,25 @@ contract CryptService {
         address[] accessPool;
     }
     
-    struct diffieHillmanPool {
-        uint identifier;
-        uint generator;
-        uint prime;
-        address [] accessPool;
-    }
-
+    
+    // pool declarations
+    
     cipherAssociation[] private CA;
+    
+    diffieHellmanPool[] private DHP;
     
     mapping (address => publicKeyPool[]) private PKP;
     mapping (address => uint) private PKI;
     
+    
+    // cipher functions 
+    
     function storeCipher(string memory cipher, address[] memory parties) public returns(uint) {
-        cipherAssociation memory c = cipherAssociation(counter,cipher, msg.sender,parties);
+        cipherAssociation memory c = cipherAssociation(CAcounter, msg.sender, cipher,parties);
         CA.push(c);
-        CA[counter].accessPool.push(msg.sender);
-        uint id = counter;
-        counter++;
+        CA[CAcounter].accessPool.push(msg.sender);
+        uint id = CAcounter;
+        CAcounter++;
         return id;
     }
     
@@ -67,6 +85,51 @@ contract CryptService {
         return flag;
     }
     
+    
+    // Diffie Hellman functions 
+    
+    function createNewDHExchange(uint prime, uint generator, uint exchange, address[] memory parties) public returns(uint) {
+        mapping (address => uint) ex;
+        ex[msg.sender] = exchange;
+        diffieHellmanPool d = new diffieHellmanPool(DHPcounter, msg.sender, prime, generator, ex, parties);
+        d.parties.push(msg.sender);
+        DHP.push(d);
+        uint id = DHPcounter;
+        DHPcounter++;
+        return id;
+    }
+    
+    function addDHExchange(uint identifier, uint exhange) public returns(bool) {
+        diffieHellmanPool d = DHP[identifier];
+        bool flag = false;
+        for(int i=0; i < d.accessPool.length; i++) {
+            if(d.accessPool[i] == msg.sender) {
+                mapping (address => uint) ex = d.exhanges;
+                ex[msg.sender] = exhange;
+                flag = true;
+            }
+        }
+        return flag;
+    }
+    
+    function addAccessorDH(uint identifier, address[] memory parties) public returns(bool) {
+        bool flag = false;
+        if(DHP[identifier].issuer == msg.sender) {
+            for(int i=0; i < parties.length; i++) {
+                DHP[identifier].accessPool.push(parties[i]);
+            }
+            flag = true;
+        }
+        return flag;
+    }
+    
+    function getDHExchange() public returns(uint) {
+        
+    }
+    
+    
+    // Public key cryptography functions
+    
     function createNewKeyPool(uint pubK, address[] memory parties) public returns(uint) {
         uint identifier = PKI[msg.sender];
         PKI[msg.sender] = identifier + 1;
@@ -90,16 +153,4 @@ contract CryptService {
         return 0;
         
     }
-
-    // function to add acessor to KeyPool
-
-    // functions for enctypted key storage
-        // create
-        // accesss
-        // modify
-        // change accessor
-
-    // functions for Diffie Hillman Key Exchange
-        // struct for public keys (p, g, e)
-        // how to store private keys?
 }
