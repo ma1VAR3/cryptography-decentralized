@@ -2,8 +2,8 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
-    <title>Crypt Service</title>
-    <link rel="stylesheet" href="index.css" />
+    <title>Store Cipher</title>
+    <link rel="stylesheet" href="page3.css" />
     <link
       href="http://fonts.cdnfonts.com/css/glacial-indifference-2"
       rel="stylesheet"
@@ -23,23 +23,26 @@
       </center>
       <img id="ellipse" src="./assets/ellipse.png" alt="ellipse" />
     </div>
-    <img id="logo2" src="./assets/cryptserviceimg.png" alt="cryptservicelogo" />
-    <div id="text1">
-      <p id="testcase1">
-        A decentralized solution for information exchange built for
-        cryptosystems
-      </p>
+    <div id="text1" style="top: 200px">
+      <p id="testcase1"><strong>Store Cipher</strong></p>
     </div>
+    <form class="" action="" method="post">
+      <label id="message">Message</label>
+      <input type="text" name="Message" value="" id="inpmess" />
+      <label id="key">Key</label>
+      <input type="text" name="Key" value="" id="inpkey" />
+      <label id="accessors">Accessors</label>
+      <input type="text" name="Accessors" value="" id="inpacc" />
+      <input type="submit" name="" value="store" id="submit" />
+    </form>
     <button
       type="button"
-      name="button1"
-      id="button1"
+      name="button"
+      id="goback"
       onclick="window.location.href='page2.html'"
     >
-      cipher
+      Go back
     </button>
-    <button type="button" name="button2" id="button2">diffie hellman</button>
-    <button type="button" name="button3" id="button3">public key</button>
     <div id="bottom">
       <hr />
       <p class="copyright">© Group 4</p>

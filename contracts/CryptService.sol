@@ -27,10 +27,11 @@ contract CryptService {
     
     struct diffieHellmanPool {
         uint identifier;
+        uint exchangeCounter;
         address issuer;
         uint prime;
         uint generator;
-        mapping (address => uint) exhanges;
+        uint[] exhanges;
         address[] accessPool;
     }
     
@@ -89,9 +90,9 @@ contract CryptService {
     // Diffie Hellman functions 
     
     function createNewDHExchange(uint prime, uint generator, uint exchange, address[] memory parties) public returns(uint) {
-        mapping (address => uint) ex;
-        ex[msg.sender] = exchange;
-        diffieHellmanPool d = new diffieHellmanPool(DHPcounter, msg.sender, prime, generator, ex, parties);
+        uint [] ex;
+        ex.push(exchange);
+        diffieHellmanPool memory d = new diffieHellmanPool(DHPcounter, 0, msg.sender, prime, generator, ex, parties);
         d.parties.push(msg.sender);
         DHP.push(d);
         uint id = DHPcounter;
@@ -99,13 +100,11 @@ contract CryptService {
         return id;
     }
     
-    function addDHExchange(uint identifier, uint exhange) public returns(bool) {
-        diffieHellmanPool d = DHP[identifier];
+    function addDHExchange(uint identifier, uint exchange) public returns(bool) {
         bool flag = false;
-        for(int i=0; i < d.accessPool.length; i++) {
-            if(d.accessPool[i] == msg.sender) {
-                mapping (address => uint) ex = d.exhanges;
-                ex[msg.sender] = exhange;
+        for(int i=0; i < DHP[identifier].accessPool.length; i++) {
+            if(DHP[identifier].accessPool[i] == msg.sender) {
+                DHP[identifier].exhanges[msg.sender] = exchange;
                 flag = true;
             }
         }
@@ -124,10 +123,9 @@ contract CryptService {
     }
     
     function getDHExchange(uint identifier, address exchangeAddr) public returns(uint) {
-        diffieHellmanPool d = DHP[identifier];
-        for(int i=0; i < d.accessPool.length; i++) {
-            if (d.accessPool[i] == msg.sender) {
-                return d.exhanges[exchangeAddr];
+        for(int i=0; i < DHP[identifier].accessPool.length; i++) {
+            if (DHP[identifier].accessPool[i] == msg.sender) {
+                return DHP[identifier].exhanges[exchangeAddr];
             }
         }
         return 0;
